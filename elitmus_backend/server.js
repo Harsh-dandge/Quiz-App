@@ -3,6 +3,9 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import { connect } from "./utils/connection.js";
 import userRouter from "./routes/UserRoutes.js";
+import {config} from 'dotenv'
+
+config();
 
 const app = express();
 
@@ -13,7 +16,7 @@ app.use(bodyParser.json());
 app.use("/user", userRouter);
 
 
-app.listen(8000, async () => {
+app.listen(process.env.PORT, async () => {
     await connect();
     console.log("Server running successfully");
 
