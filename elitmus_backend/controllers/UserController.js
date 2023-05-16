@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import * as argon2 from "argon2";
 import pkg from 'jsonwebtoken';
-const {sign} = pkg;
+const {sign, verify} = pkg;
 const  SECRET_KEY = "NOTESAPI";
 
 const signup = async( req, res) => {
@@ -60,4 +60,52 @@ const signin = async (req,res) =>{
     }
 }
 
-export {signup,signin};
+const getUser = async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const email = verify(token, SECRET_KEY).email;
+
+    console.log(email);
+    const user = await User.findOne({where:{email}});
+
+    if(!user){
+        return res.status(400).json({error:"Invalid Token"});
+    }
+
+    return res.status(200).json({user});
+}
+
+const addprogress = async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const email = verify(token, SECRET_KEY).email;
+
+    console.log(email);
+    const user = await User.findOne({where:{email}});
+
+    user.progress = user.progress + 1;
+    await user.save();
+
+    if(!user){
+        return res.status(400).json({error:"Invalid Token"});
+    }
+
+    return res.status(200).json({success:"Progress Updated"});
+}
+
+const resetprogress = async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const email = verify(token, SECRET_KEY).email;
+
+    console.log(email);
+    const user = await User.findOne({where:{email}});
+
+    user.progress = 1;
+    await user.save();
+
+    if(!user){
+        return res.status(400).json({error:"Invalid Token"});
+    }
+
+    return res.status(200).json({success:"Progress Updated"});
+}
+
+export {signup,signin, getUser, addprogress, resetprogress};

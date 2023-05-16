@@ -20,6 +20,11 @@ const User = sequelize.define('User', {
     password: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    progress: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 1
     }
   }, {
     // Other model options go here
