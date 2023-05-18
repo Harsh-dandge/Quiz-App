@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes } from "sequelize";
 import { sequelize } from '../utils/connection.js';
 
-const User = sequelize.define('User', {
+const User = sequelize.define('Users', {
     // Model attributes are defined here
     userId: {
       type: DataTypes.INTEGER,
