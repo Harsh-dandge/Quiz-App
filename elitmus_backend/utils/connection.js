@@ -18,7 +18,7 @@ const connect = async () => {
 }
 
 (async () => {
-    await sequelize.sync();
+    await sequelize.sync({force: true});
     // Code here
 })();
 
